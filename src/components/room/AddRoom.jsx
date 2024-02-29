@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { addRoom } from "../utils/ApiFunctions";
 import RoomTypeSelector from "../common/RoomTypeSelector";
-import ExistingRooms from "./ExistingRooms";
 import { Link } from "react-router-dom";
 
 const AddRoom = () => {
@@ -18,6 +17,13 @@ const AddRoom = () => {
   const handleRoomInputChange = (e) => {
     const name = e.target.name;
     let value = e.target.value;
+    if (name === "roomPrice") {
+      if (!isNaN(value)) {
+        value = parseInt(value);
+      } else {
+        value = "";
+      }
+    }
     setNewRoom({ ...newRoom, [name]: value });
   };
 
@@ -28,6 +34,7 @@ const AddRoom = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(newRoom);
     e.preventDefault();
     try {
       const success = await addRoom(
@@ -58,7 +65,7 @@ const AddRoom = () => {
 
   return (
     <>
-      <section className="container, mt-5 mb-5">
+      <section className="container mt-5 mb-5">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
             <h2 className="mt-5 mb-2">Add New Room</h2>
@@ -106,12 +113,13 @@ const AddRoom = () => {
                   Room Photo
                 </label>
                 <input
+                  required
                   id="photo"
                   name="photo"
                   type="file"
                   className="form-control"
                   onChange={handleImageChange}
-                ></input>
+                />
                 {imagePreview && (
                   <img
                     src={imagePreview}
@@ -122,11 +130,11 @@ const AddRoom = () => {
                 )}
               </div>
 
-              <div className="d-grid d-md-flex mt-2">
+              <div className="d-grid gap-2 d-md-flex mt-2">
                 <Link to={"/existing-rooms"} className="btn btn-outline-info">
                   Back
                 </Link>
-                <button className="btn btn-outline-primary ml-5">
+                <button type="submit" className="btn btn-outline-primary ml-5">
                   Save Room
                 </button>
               </div>

@@ -10,19 +10,16 @@ const BookingForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [roomPrice, setRoomPrice] = useState(0);
+
+  const currentUser = localStorage.getItem("userId");
+
   const [booking, setBooking] = useState({
     guestName: "",
-    guestEmail: "",
+    guestEmail: currentUser,
     checkInDate: "",
     checkOutDate: "",
     numOfAdults: "",
     numOfChildrens: "",
-  });
-
-  const [roomInfo, setRoomInfo] = useState({
-    photo: "",
-    roomType: "",
-    roomPrice: "",
   });
 
   const { roomId } = useParams();
@@ -105,10 +102,12 @@ const BookingForm = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="card card-body mt-5">
-              <h4 className="card card-title">Reserve Room</h4>
+              <h4 className="card-title">Reserve Room</h4>
               <Form noValidate validated={IsValidated} onSubmit={handleSubmit}>
                 <Form.Group>
-                  <Form.Label htmlFor="guestName">Full Name : </Form.Label>
+                  <Form.Label htmlFor="guestName" className="hotel-color">
+                    Full Name :{" "}
+                  </Form.Label>
                   <FormControl
                     required
                     type="text"
@@ -124,7 +123,9 @@ const BookingForm = () => {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label htmlFor="guestEmail">Email : </Form.Label>
+                  <Form.Label htmlFor="guestEmail" className="hotel-color">
+                    Email :{" "}
+                  </Form.Label>
                   <FormControl
                     required
                     type="email"
@@ -133,6 +134,7 @@ const BookingForm = () => {
                     value={booking.guestEmail}
                     placeholder="Enter your email"
                     onChange={handleInputChange}
+                    disabled
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter your email address
@@ -143,7 +145,7 @@ const BookingForm = () => {
                   <legend>Lodging period</legend>
                   <div className="row">
                     <div className="col-6">
-                      <Form.Label htmlFor="checkInDate">
+                      <Form.Label htmlFor="checkInDate" className="hotel-color">
                         Check-In date :
                       </Form.Label>
                       <FormControl
@@ -153,6 +155,7 @@ const BookingForm = () => {
                         name="checkInDate"
                         value={booking.checkInDate}
                         placeholder="check-in date"
+                        min={moment().format("MMM Do, YYYY")}
                         onChange={handleInputChange}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -161,7 +164,10 @@ const BookingForm = () => {
                     </div>
 
                     <div className="col-6">
-                      <Form.Label htmlFor="checkOutDate">
+                      <Form.Label
+                        htmlFor="checkOutDate"
+                        className="hotel-color"
+                      >
                         Check-Out date :
                       </Form.Label>
                       <FormControl
@@ -171,6 +177,7 @@ const BookingForm = () => {
                         name="checkOutDate"
                         value={booking.checkOutDate}
                         placeholder="check-out date"
+                        min={moment().format("MMM Do, YYYY")}
                         onChange={handleInputChange}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -191,7 +198,9 @@ const BookingForm = () => {
 
                   <div className="row">
                     <div className="col-6">
-                      <Form.Label htmlFor="numOfAdults">Adults :</Form.Label>
+                      <Form.Label htmlFor="numOfAdults" className="hotel-color">
+                        Adults :
+                      </Form.Label>
                       <FormControl
                         required
                         type="number"
@@ -208,7 +217,10 @@ const BookingForm = () => {
                     </div>
 
                     <div className="col-6">
-                      <Form.Label htmlFor="numOfChildrens">
+                      <Form.Label
+                        htmlFor="numOfChildrens"
+                        className="hotel-color"
+                      >
                         Childrens :
                       </Form.Label>
                       <FormControl
@@ -221,6 +233,9 @@ const BookingForm = () => {
                         min={0}
                         onChange={handleInputChange}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        Select 0 if no children
+                      </Form.Control.Feedback>
                     </div>
                   </div>
                 </fieldset>

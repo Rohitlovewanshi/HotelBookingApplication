@@ -40,7 +40,7 @@ const Registration = () => {
       )}
       {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
       <h2>Register</h2>
-      <form>
+      <form onSubmit={handleRegistration}>
         <div className="row mb-3">
           <label htmlFor="firstName" className="col-sm-2 col-form-label">
             First Name
@@ -61,7 +61,7 @@ const Registration = () => {
           <label htmlFor="lastName" className="col-sm-2 col-form-label">
             Last Name
           </label>
-          <div>
+          <div className="col-sm-10">
             <input
               id="lastName"
               name="lastName"
@@ -77,7 +77,7 @@ const Registration = () => {
           <label htmlFor="email" className="col-sm-2 col-form-label">
             Email
           </label>
-          <div>
+          <div className="col-sm-10">
             <input
               id="email"
               name="email"
@@ -93,7 +93,7 @@ const Registration = () => {
           <label htmlFor="password" className="col-sm-2 col-form-label">
             Password
           </label>
-          <div>
+          <div className="col-sm-10">
             <input
               id="password"
               name="password"
@@ -108,7 +108,7 @@ const Registration = () => {
         <div className="mb-3">
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-hotel"
             style={{ marginRight: "10px" }}
           >
             Register

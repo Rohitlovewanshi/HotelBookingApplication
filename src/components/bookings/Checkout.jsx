@@ -35,7 +35,7 @@ const Checkout = () => {
           setError(error);
           setIsLoading(false);
         });
-    }, 2000);
+    }, 1000);
   }, [roomId]);
   return (
     <div>

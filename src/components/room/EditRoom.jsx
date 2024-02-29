@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 const EditRoom = () => {
   const [room, setRoom] = useState({
-    photo: null,
+    photo: "",
     roomType: "",
     roomPrice: "",
   });

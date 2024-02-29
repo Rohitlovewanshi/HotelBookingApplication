@@ -1,6 +1,7 @@
 import { parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../common/DateSlider";
+import moment from "moment";
 
 const BookingsTable = ({ bookingInfo, handleBookingCancellation }) => {
   const [filteredBookings, setFilteredBookings] = useState(bookingInfo);
@@ -9,12 +10,12 @@ const BookingsTable = ({ bookingInfo, handleBookingCancellation }) => {
     let filtered = bookingInfo;
     if (startDate && endDate) {
       filtered = bookingInfo.filter((booking) => {
-        const bookingStartDate = parseISO(booking.checkInDate);
-        const bookingEndDate = parseISO(booking.checkOutDate);
+        const bookingStartDate = moment(new Date(booking.checkInDate));
+        const bookingEndDate = moment(new Date(booking.checkOutDate));
         return (
-          bookingStartDate >= startDate &&
-          bookingEndDate <= endDate &&
-          bookingEndDate > startDate
+          bookingStartDate.isSameOrAfter(startDate) &&
+          bookingEndDate.isSameOrBefore(endDate) &&
+          bookingEndDate.isAfter(startDate)
         );
       });
     }
@@ -56,8 +57,13 @@ const BookingsTable = ({ bookingInfo, handleBookingCancellation }) => {
               <td>{booking.id}</td>
               <td>{booking.room.id}</td>
               <td>{booking.room.roomType}</td>
-              <td>{booking.checkInDate}</td>
-              <td>{booking.checkOutDate}</td>
+              <td>
+                {moment(new Date(booking.checkInDate)).format("MMM Do, YYYY")}
+              </td>
+
+              <td>
+                {moment(new Date(booking.checkOutDate)).format("MMM Do, YYYY")}
+              </td>
               <td>{booking.guestName}</td>
               <td>{booking.guestEmail}</td>
               <td>{booking.numOfAdults}</td>

@@ -39,6 +39,7 @@ const Room = () => {
   };
 
   const totalPages = Math.ceil(filteredData.length / roomsPerPage);
+
   const renderRooms = () => {
     const startIndex = (currentPage - 1) * roomsPerPage;
     const endIndex = startIndex + roomsPerPage;

@@ -38,6 +38,7 @@ const RoomSearch = () => {
         setAvailableRooms(response.data);
         setTimeout(() => {
           setIsLoading(false);
+          setErrorMessage("");
         }, 2000);
       })
       .catch((error) => {
@@ -65,6 +66,7 @@ const RoomSearch = () => {
       roomType: "",
     });
     setAvailableRooms([]);
+    setErrorMessage("");
   };
   return (
     <>
@@ -98,14 +100,14 @@ const RoomSearch = () => {
             </Col>
 
             <Col xs={12} md={3}>
-              <Form.Group>
+              <Form.Group controlId="roomType">
                 <Form.Label>Room Type</Form.Label>
                 <div className="d-flex">
                   <RoomTypeSelector
                     handleRoomInputChange={handleInputChange}
                     newRoom={searchQuery}
                   />
-                  <Button variant="secondary" type="submit">
+                  <Button variant="secondary" type="submit" className="ml-2">
                     Search
                   </Button>
                 </div>
@@ -115,14 +117,16 @@ const RoomSearch = () => {
         </Form>
 
         {isLoading ? (
-          <p>Finding available rooms....</p>
+          <p className="mt-4">Finding available rooms....</p>
         ) : availableRooms ? (
           <RoomSearchResult
             results={availableRooms}
             onClearSearch={ClearSearch}
           />
         ) : (
-          <p>No rooms available for the selected dates and room type</p>
+          <p className="mt-4">
+            No rooms available for the selected dates and room type.
+          </p>
         )}
 
         {errorMessage && <p className="text-danger">{errorMessage}</p>}

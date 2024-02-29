@@ -14,9 +14,9 @@ import {
 const HotelService = () => {
   return (
     <>
-      <Container className="mb-2">
+      <div className="mb-2">
         <Header title={"Our Services"} />
-        <Row>
+        <Row className="mt-4">
           <h4 className="text-center">
             Services at <span className="hotel-color">StayLounge</span>
             <span className="gap-2">
@@ -104,7 +104,7 @@ const HotelService = () => {
             </Card>
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

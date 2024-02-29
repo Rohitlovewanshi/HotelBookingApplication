@@ -3,10 +3,11 @@ import {
   cancelBooking,
   getBookingByConfirmationCode,
 } from "../utils/ApiFunctions";
+import moment from "moment";
 
 const FindBooking = () => {
   const [confirmationCode, setConfirmationCode] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [bookingInfo, setBookingInfo] = useState({
@@ -49,6 +50,7 @@ const FindBooking = () => {
     try {
       const data = await getBookingByConfirmationCode(confirmationCode);
       setBookingInfo(data);
+      setError("");
     } catch (error) {
       setBookingInfo(clearBookingInfo);
       if (error.response && error.response.status === 404) {
@@ -82,37 +84,48 @@ const FindBooking = () => {
   return (
     <>
       <div className="container mt-5 d-flex flex-column justify-content-center align-items-center">
-        <h2>Find My Booking</h2>
+        <h2 className="text-center mb-4">Find My Booking</h2>
         <form onSubmit={handleFormSubmit} className="col-md-6">
           <div className="input-group mb-3">
             <input
               className="form-control"
+              type="text"
               id="confirmationCode"
               name="confirmationCode"
               value={confirmationCode}
               onChange={handleInputChange}
               placeholder="Enter the booking confirmation code"
             />
-            <button className="btn btn-hotel input-group-text">
+            <button type="submit" className="btn btn-hotel input-group-text">
               Find booking
             </button>
           </div>
         </form>
         {isLoading ? (
-          <div>Finding booking.....</div>
+          <div>Find your bookings.....</div>
         ) : error ? (
-          <div className="text-danger">{error}</div>
+          <div className="text-danger">Error : {error}</div>
         ) : bookingInfo.bookingConfirmationCode ? (
           <div className="col-md-6 mt-4 mb-5">
             <h3>Booking Information</h3>
-            <p>
+            <p className="text-success">
               Booking Confirmation Code : {bookingInfo.bookingConfirmationCode}
             </p>
             <p>Booking ID : {bookingInfo.id}</p>
             <p>Room Number : {bookingInfo.room.id}</p>
             <p>Room Type : {bookingInfo.room.roomType}</p>
-            <p>Check-In Date : {bookingInfo.checkInDate}</p>
-            <p>Check-Out Date : {bookingInfo.checkOutDate}</p>
+            <p>
+              Check-In Date :{" "}
+              {moment(bookingInfo.checkInDate)
+                .subtract(1, "month")
+                .format("MMM Do, YYYY")}
+            </p>
+            <p>
+              Check-Out Date :{" "}
+              {moment(bookingInfo.checkInDate)
+                .subtract(1, "month")
+                .format("MMM Do, YYYY")}
+            </p>
             <p>Full Name : {bookingInfo.guestFullName}</p>
             <p>Email Address : {bookingInfo.guestEmail}</p>
             <p>Adults : {bookingInfo.numOfAdults}</p>
@@ -133,7 +146,7 @@ const FindBooking = () => {
         )}
 
         {isDeleted && (
-          <div className="alert alert-success mt-3" role="alert">
+          <div className="alert alert-success mt-3 fade show" role="alert">
             {successMessage}
           </div>
         )}

@@ -50,7 +50,7 @@ const BookingSummary = ({ booking, payment, isFormValid, onConfirm }) => {
           Number of Days : <strong>{numberOfDays}</strong>
         </p>
         <div>
-          <h5>Number of Guests</h5>
+          <h5 className="hotel-color">Number of Guests</h5>
           <strong>
             Adult{booking.numOfAdults > 1 ? "s" : ""} : {booking.numOfAdults}
           </strong>
@@ -80,7 +80,7 @@ const BookingSummary = ({ booking, payment, isFormValid, onConfirm }) => {
             ) : isBookingConfirmed ? (
               <div className="d-flex justify-content-center align-items-center">
                 <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading</span>
+                  <span className="sr-only">Loading...</span>
                 </div>
               </div>
             ) : null}
